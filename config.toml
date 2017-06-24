@@ -1,0 +1,39 @@
+baseurl = "http://blog.yurilab.com"
+languageCode = "zh"
+title = "yuri | Lab"
+theme = "Hucore"
+copyright = "&copy; 2017 | Follow on <a href=\"https://twitter.com/YuriTheCoder\" target=\"_blank\">Twitter</a> | using <a href=\"https://github.com/mgjohansen/hucore.git\" target=\"_blank\">Hucore theme</a> & <a href=\"http://gohugo.io\" target=\"_blank\">Hugo</a> ♥"
+disqusShortname = "yurilab"
+googleAnalytics = "UA-101624162-1"
+
+[taxonomies]
+tag = "tags"
+category = "categories"
+
+[params]
+description = "The Lab where I can show my mind"
+keywords = ["blog", "coder", "golang"]
+author = "Yuri Zhang"
+sharingicons = true
+displayauthor = true
+
+[params.highlight]
+style = "github"
+languages = ["go", "dockerfile"]
+
+[[params.social]]
+url = "https://github.com/zhyuri"
+fa_icon = "fa-github"
+
+[[params.social]]
+url = "https://twitter.com/YuriTheCoder"
+fa_icon = "fa-twitter"
+
+[[params.social]]
+url = "https://www.linkedin.com/in/%E5%8F%8B%E5%8A%9B-%E5%BC%A0-390a2797/"
+fa_icon = "fa-linkedin-square"
+
+[[params.social]]
+url = "/index.xml"
+fa_icon = "fa-rss"
+
