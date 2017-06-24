@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta content="blog, coder, golang" name="keywords">
+<meta content="Yuri Zhang" name="author">
+<meta property="og:title" content="ATS零碎笔记(一) - Lua - yuri | Lab">
+<meta property="og:url" content="http://blog.yurilab.com/blog/using-lua-with-ats/">
+<meta property="og:description" content="The Lab where I can show my mind">
+<meta property="og:type" content="website" />
+<title>ATS零碎笔记(一) - Lua | yuri | Lab</title>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<link rel="stylesheet" href="http://blog.yurilab.com/css/style.css">
+<link rel="shortcut icon" href="http://blog.yurilab.com/wave.ico">
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css">
+
+</head>
+
+<body>
+<section class="section">
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="nav-item" href="http://blog.yurilab.com"><h1 class="title is-4">yuri | Lab</h1></a>
+      </div>
+      <div class="nav-right">
+        <nav class="nav-item level is-mobile">
+          
+          <a class="level-item" href="https://github.com/zhyuri" target="_blank">
+            <span class="icon">
+              <i class="fa fa-github"></i>
+            </span>
+          </a>
+          
+          <a class="level-item" href="https://twitter.com/YuriTheCoder" target="_blank">
+            <span class="icon">
+              <i class="fa fa-twitter"></i>
+            </span>
+          </a>
+          
+          <a class="level-item" href="https://www.linkedin.com/in/%E5%8F%8B%E5%8A%9B-%E5%BC%A0-390a2797/" target="_blank">
+            <span class="icon">
+              <i class="fa fa-linkedin-square"></i>
+            </span>
+          </a>
+          
+          <a class="level-item" href="/index.xml" target="_blank">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+          </a>
+          
+        </nav>
+      </div>
+    </nav>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h1 class="title">ATS零碎笔记(一) - Lua</h1>
+    <h2 class="subtitle is-5">March 14, 2016 by Yuri Zhang</h2>
+    
+    <div class="content">
+      <h2 id="tslua配置姿势">tslua配置姿势</h2>
+
+<p>这里只介绍从源码编译的方法，当然也有其他的
+<a href="https://blog.zymlinux.net/index.php/archives/768">安装方式</a>，两种都蛮简单。</p>
+
+<p>从源码编译只需要在执行<code>./configure</code>的时候加一个参数<code>--enable-experimental-plugins</code>，
+这样在编译ATS的时候就会把实验性的插件也一起编译了，将来再用到其他插件也会很方便，无需重新编译。</p>
+
+<p></p>
+
+<p>接下来在有三种配置方式：</p>
+
+<ol>
+<li><p>只想针对某个URL启用某个Lua脚本，在<code>remap.config</code>中
+<code>map http://fuck.off.com/ http://fuck.you.com/ @plugin=/X/tslua.so @pparam=/X/fuck.lua</code></p></li>
+
+<li><p>只想针对某个URL，但希望能传递参数，在<code>remap.config</code>中
+<code>map http://fuck.off.com/ http://fuck.you.com/ @plugin=/X/tslua.so @pparam=/X/fuck.lua @pparam=yo.man</code></p></li>
+
+<li><p>全局开启某Lua脚本，在<code>plugin.config</code>中
+<code>tslua.so /X/test_global_hdr.lua</code></p></li>
+</ol>
+
+<p>需要注意的是，在前两种配置方式中，我们在lua脚本中加入<code>do_remap</code>函数作为执行入口，其中第二种方式传递的参数，
+会在Lua脚本的<code>__init__</code>函数中被传递进去。第三种配置方式里，能够作为执行入口的函数很多，从函数名即可知道他们
+的执行时机：</p>
+
+<ul>
+<li>‘do_global_txn_start’</li>
+<li>‘do_global_txn_close’</li>
+<li>‘do_global_os_dns’</li>
+<li>‘do_global_pre_remap’</li>
+<li>‘do_global_post_remap’</li>
+<li>‘do_global_read_request’</li>
+<li>‘do_global_send_request’</li>
+<li>‘do_global_read_response’</li>
+<li>‘do_global_send_response’</li>
+<li>‘do_global_cache_lookup_complete’</li>
+<li>‘do_global_read_cache’</li>
+<li>‘do_global_select_alt’</li>
+</ul>
+
+<h2 id="迷之-missing-ictx">迷之<code>missing ictx</code></h2>
+
+<p>在初次使用tslua plugin的时候，你有很大几率会遇到这样的一个报错
+<code>missing ictx</code>，至少我花费了一个下午的时间才搞明白这个错误是怎么回事。</p>
+
+<p>从错误信息能看出这里缺少了lua上下文<code>context</code>，从tslua源码中可以看到确实是这个原因，</p>
+
+<p>那么这个上下文到底是什么呢？</p>
+
+<p>最初我以为是没有在<code>plugin.config</code>中添加<code>libload.so</code>导致没有引入链接库，但在引入了之后，
+lua脚本依旧无法正常运行。</p>
+
+<p>反复的翻找了文档、Google、以及ATS的中文博客之后，无意间在文档中看到这样一段话：</p>
+
+<blockquote>
+<p>ts.now</p>
+
+<p>syntax: val = ts.now()</p>
+
+<p>context: global</p>
+
+<p>description: This function returns the time since the Epoch (00:00:00 UTC, January 1, 1970),
+measured in seconds. It includes milliseconds as the decimal part.</p>
+</blockquote>
+
+<p>finally&hellip;</p>
+
+<p>原来每一个tslua函数，都有自己的作用域和上下文限制，遵循这一限制，
+在执行到这个函数的时候才会具备执行条件。</p>
+
+<h2 id="实现功能-区分设备分别缓存内容">实现功能 - 区分设备分别缓存内容</h2>
+
+<p>配置好了tslua，接下来就要用它来开发功能了，首先我们来实现一个很常见但ATS没有很好支持的功能：</p>
+
+<blockquote>
+<p>根据User-Agent分别缓存不同类型设备的网页</p>
+</blockquote>
+
+<p>这个需求的主要目的，是针对不同的平台返回不同的静态资源，这样在不同平台上可以分发不同的资源，
+提高页面响应速度，完善用户体验。</p>
+
+<p>公司A有一个网站<code>fuck.you.com</code>，同时还有一个子页面 <code>fuck.you.com/shit</code>。</p>
+
+<p>在默认的工作方式下，ATS针对这一子页面只会缓存一份，Cache Key是<code>fuck.you.com/shit</code>，
+Cache Object是页面内容。</p>
+
+<p>然而针对这一资源，公司面向不同的平台开发出了不同的页面，并且希望共用一个URL，同时利用ATS缓存起来。
+这样原始的ATS配置就无法满足需求了，Cache Key一致的情况下，Cache Object只会被覆盖掉。</p>
+
+<p>为了实现这个功能，我们有两种选择：</p>
+
+<ol>
+<li>使用C编写逻辑</li>
+<li>使用tslua插件编写Lua脚本实现逻辑</li>
+</ol>
+
+<p>能用C写业务代码的都是大神&hellip;鄙人弱如菜鸡搞不定。于是选择使用Lua脚本实现这部分逻辑。</p>
+
+<h3 id="基础版">基础版</h3>
+
+<p>选择在<code>remap.config</code>中通过配置的方式引入Lua脚本，针对某一部分URL开启这一功能。</p>
+
+<p><code>map http://fuck.you.com/shit.* http://fuck.you.com/shit @plugin=/X/tslua.so @pparam=/X/ua.lua</code></p>
+
+<p>在<code>ua.lua</code>中我们写入<code>do_remap</code>函数并在其中实现逻辑。</p>
+
+<pre><code class="language-lua">
+    local device = 'PC'
+
+    function do_remap()
+        local url = ts.client_request.get_url()
+        local ua = ts.client_request.header['User-Agent']
+        device = detect_device(ua)
+        ts.http.set_cache_url(device .. '|' .. url)
+
+        return 0
+    end
+
+    function detect_device(ua)
+        if ua == nil or ua == '' then
+            return 'PC'
+        end
+
+        if string.find(ua, 'Android') then
+            return 'Android'
+        elseif string.find(ua, 'iPhone') then
+            return 'iPhone'
+        elseif string.find(ua, 'iOS') then
+            return 'iOS'
+        elseif string.find(ua, 'iPad') then
+            return 'iPad'
+        else
+            return 'PC'
+        end
+
+        -- Defult Device
+        return 'PC'
+    end
+
+</code></pre>
+
+<p>从代码中可以看到，除了判断设备类型的<code>detect_device</code>函数以外，最重要的函数就是tslua提供的
+<code>ts.http.set_cache_url</code>了。通过这一函数，我们可以更改Cache Key，ATS将不再使用原始的URL作为Cache Key，
+在这里我们将平台名作为前缀加在URL前边，合在一起作为新的Cache Key保存，这样一来ATS就会根据请求，将
+同一URL补上平台名再检查缓存是否存在。</p>
+
+<p>需要注意的是，我在这里区分了五种UA，回源机将会收到五次ATS回源请求(当然如果某一平台一直没有人访问，
+也不会缓存它的版本，你瞧我就没写Windows Mobile Phone的UA判断对不对)</p>
+
+<p>这样我们就实现了目标需求，在回源机看来，会收到五次代表性的请求，分别具备五类UA，只需要再判断一下平台类型，
+就可以输出不同平台的内容了。</p>
+
+<p>然而，问题的解决没有这么简单，这个基础版本的实现方式存在一些缺陷：</p>
+
+<ol>
+<li><p>Purge的时候无法清除被这种方法处理过的URL，因为Cache Key已经不是一个合法的URL。
+当然也可以把平台信息拼在query里边规避这个问题。不过每次Purge都需要清五个URL，
+并且这一逻辑会同时存在于Lua和Purge脚本中，难以维护。</p></li>
+
+<li><p>ATS不允许Cache Key被重复set，也就是说在tslua中使用<code>set_cache_url</code>之后，就无法再使用其他插件
+（比如cacheurl）了</p></li>
+</ol>
+
+<p>为了解决以上两个问题，诞生了升级版</p>
+
+<h3 id="升级版">升级版</h3>
+
+<p>和基础版的实现方式不同，这里我们避免使用<code>set_cache_url</code>函数实现区分存储多份缓存，而是利用ATS本身就具备的
+<a href="https://docs.trafficserver.apache.org/en/latest/admin-guide/configuration/cache-basics.en.html#caching-http-alternates">Caching HTTP Alternates</a>
+功能，实现需求。</p>
+
+<p>这里要对上边的Lua脚本进行一些修改：</p>
+
+<pre><code class="language-lua">
+    local device = 'PC'
+
+    function do_remap()
+        local ua = ts.client_request.header['User-Agent']
+        ts.client_request.header['User-Agent'] = detect_device(ua)
+
+        return 0
+    end
+
+    function detect_device(ua)
+        if ua == nil or ua == '' then
+            return 'PC'
+        end
+
+        if string.find(ua, 'Android') then
+            return 'Android'
+        elseif string.find(ua, 'iPhone') then
+            return 'iPhone'
+        elseif string.find(ua, 'iOS') then
+            return 'iOS'
+        elseif string.find(ua, 'iPad') then
+            return 'iPad'
+        else
+            return 'PC'
+        end
+
+        -- Defult Device
+        return 'PC'
+    end
+
+</code></pre>
+
+<p>可以看到，在Lua脚本中仅仅是将原本的Client Requst的<code>User-Agent</code>替换为了平台名，
+那么ATS是怎么知道根据<code>User-Agent</code>缓存多个HTTP内容呢？</p>
+
+<p>答案在ATS的<code>records.config</code>中，内置了几个配置项，可以指定以某一Header字段为版本依据，
+在这里我们指定<code>User-Agent</code>为依据。</p>
+
+<p>同时又由于我们通过Lua脚本将格式相当不统一的<code>User-Agent</code>内容规范为了五种，因此在ATS中只会缓存五份。</p>
+
+<p>在<code>records.config</code>中添加如下配置（默认是没有的）：</p>
+
+<pre><code># 开启vary检查
+CONFIG proxy.config.http.cache.enable_default_vary_headers INT 1
+# 对text类型的http请求开启多份存储，以User-agent为依据
+CONFIG proxy.config.http.cache.vary_default_text STRING User-agent
+# 同理还有
+# CONFIG proxy.config.http.cache.vary_default_images STRING User-agent
+# CONFIG proxy.config.http.cache.vary_default_other STRING User-agent
+# 这一条配置限制了最大的副本数量
+# CONFIG proxy.config.cache.limits.http.max_alts INT 5
+</code></pre>
+
+<p>其中每一项的配置内容，就是配置校验的HTTP Header字段，这里我们填写了<code>User-agent</code>。</p>
+
+<p>如果要根据<code>Cookies</code>区分版本，记得在配置中开启这一项：</p>
+
+<p><code>proxy.config.http.cache.cache_responses_to_cookies</code></p>
+
+<p>如此一来，我们就可以根据不同的平台区分同一URL的不同版本了，并且可以统一使用这一个URL进行Purge操作。</p>
+
+<p>在回源机看来，原本纷乱的<code>User-Agent</code>被规范成了少数几类，可以更方便的做处理。</p>
+
+<h3 id="终极版">终极版</h3>
+
+<p>不知道你有没有发现高级版中的一个问题，那就是当我们在<code>records.config</code>里开启了开关之后，这是一个全局开关，
+ATS会对每个URL都进行Vary校验，那么如果某些URL没有被配置该Lua脚本，那么这些URL的命中率将会极大的降低，
+毕竟<code>User-Agent</code>是一个很随意的值，各家公司都在里边发挥聪明才智，而ATS保存的副本越多，性能也就越差。
+所以我们需要对上一方案进一步改进，解决这个问题。</p>
+
+<p>那么解决方案其实很简单，就是配置全局Lua脚本，对每一次请求都处理一次<code>User-Agent</code>，这样就过滤了所有<code>User-Agent</code>，
+也就能解决刚才那个问题了。</p>
+
+<p>那么我们需要修改两个地方。</p>
+
+<ol>
+<li>修改<code>ua.lua</code>脚本，将<code>do_remap</code>函数换为<code>do_global_read_request</code></li>
+<li>在<code>plugin.config</code>中添加这样的配置<code>tslua.so /X/ua.lua</code></li>
+</ol>
+
+<p>这样，我们就加入了一个tslua全局函数，当收到请求后就会被执行，从而对所有的<code>User-Agent</code>都过滤处理。</p>
+    </div>
+    
+        <div class="nav-left">
+    <a class="nav-item" href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fblog.yurilab.com%2fblog%2fusing-lua-with-ats%2f" title="Share on Facebook" target="_blank"><span class="fa fa-facebook fa-2x" aria-hidden="true"></span></a>
+    <a class="nav-item" href="https://plus.google.com/share?url=http%3a%2f%2fblog.yurilab.com%2fblog%2fusing-lua-with-ats%2f" title="Share on Google+" target="_blank"><span class="fa fa-google-plus fa-2x" aria-hidden="true"></span></a>
+    <a class="nav-item" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fblog.yurilab.com%2fblog%2fusing-lua-with-ats%2f" title="Share on LinkedIn" target="_blank"><span class="fa fa-linkedin fa-2x" aria-hidden="true"></span></a>
+    <a class="nav-item" href="https://twitter.com/home?status=ATS%e9%9b%b6%e7%a2%8e%e7%ac%94%e8%ae%b0%28%e4%b8%80%29%20-%20Lua - http%3a%2f%2fblog.yurilab.com%2fblog%2fusing-lua-with-ats%2f" title="Tweet this" target="_blank"><span class="fa fa-twitter fa-2x"></span></a>
+    <a class="nav-item" href="http://www.reddit.com/submit?url=http%3a%2f%2fblog.yurilab.com%2fblog%2fusing-lua-with-ats%2f&title=ATS%e9%9b%b6%e7%a2%8e%e7%ac%94%e8%ae%b0%28%e4%b8%80%29%20-%20Lua" title="Share on Reddit" target="_blank"><span class="fa fa-reddit-alien fa-2x" aria-hidden="true"></span></a>
+    
+    </div>
+    
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <aside><div id="disqus_thread"></div></aside>
+    <script type="text/javascript">
+      var disqus_shortname = 'yurilab';
+      (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container has-text-centered">
+    <p>&copy; 2017 | Follow on <a href="https://twitter.com/YuriTheCoder" target="_blank">Twitter</a> | using <a href="https://github.com/mgjohansen/hucore.git" target="_blank">Hucore theme</a> & <a href="http://gohugo.io" target="_blank">Hugo</a> ♥</p>
+  </div>
+</section>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js" integrity="sha256-+bhVTaRmJ/c07eV80nU8gD2cBBF0rYkf1txqXlrbvb0=" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/go.min.js"></script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/dockerfile.min.js"></script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-101624162-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='//www.google-analytics.com/analytics.js'></script>
+
+
+
+</body>

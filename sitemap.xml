@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>http://blog.yurilab.com/blog/how_to_avoid_the_thundering_herd/</loc>
+    <lastmod>2016-03-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.yurilab.com/blog/using-lua-with-ats/</loc>
+    <lastmod>2016-03-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.yurilab.com/categories/blog/</loc>
+    <lastmod>2016-03-17T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.yurilab.com/blog/</loc>
+    <lastmod>2016-03-17T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.yurilab.com/categories/</loc>
+    <lastmod>2016-03-17T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.yurilab.com/tags/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.yurilab.com/</loc>
+    <lastmod>2016-03-17T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+</urlset>

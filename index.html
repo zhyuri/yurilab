@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta name="generator" content="Hugo 0.24" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta content="blog, coder, golang" name="keywords">
+<meta content="Yuri Zhang" name="author">
+<meta property="og:title" content="yuri | Lab">
+<meta property="og:url" content="http://blog.yurilab.com/">
+<meta property="og:description" content="The Lab where I can show my mind">
+<meta property="og:type" content="website" />
+<title>yuri | Lab</title>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<link rel="stylesheet" href="http://blog.yurilab.com/css/style.css">
+<link rel="shortcut icon" href="http://blog.yurilab.com/wave.ico">
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css">
+
+</head>
+
+<section class="section">
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="nav-item" href="http://blog.yurilab.com"><h1 class="title is-4">yuri | Lab</h1></a>
+      </div>
+      <div class="nav-right">
+        <nav class="nav-item level is-mobile">
+          
+          <a class="level-item" href="https://github.com/zhyuri" target="_blank">
+            <span class="icon">
+              <i class="fa fa-github"></i>
+            </span>
+          </a>
+          
+          <a class="level-item" href="https://twitter.com/YuriTheCoder" target="_blank">
+            <span class="icon">
+              <i class="fa fa-twitter"></i>
+            </span>
+          </a>
+          
+          <a class="level-item" href="https://www.linkedin.com/in/%E5%8F%8B%E5%8A%9B-%E5%BC%A0-390a2797/" target="_blank">
+            <span class="icon">
+              <i class="fa fa-linkedin-square"></i>
+            </span>
+          </a>
+          
+          <a class="level-item" href="/index.xml" target="_blank">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+          </a>
+          
+        </nav>
+      </div>
+    </nav>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    
+    <article>
+      <h1 class="title"><a href="http://blog.yurilab.com/blog/how_to_avoid_the_thundering_herd/">ATS零碎笔记(二) - 避免雪崩</a></h1>
+      <h2 class="subtitle is-5">March 17, 2016</h2>
+      
+      <div class="content">
+        在应对高并发的请求时，ATS能够顽强的抗住请求压力，高速的输出缓存内容，但是当请求失效的时候， ATS不得不向回源机发起请求，希望重新获得这块内容并缓存起来。那么这里就有一个问题：
+ 当ATS发现缓存失效，向回源机发起请求，在拿回全部内容之前，这段时间内的用户请求要怎么处理？
+ 
+
+        
+        ...<a class="button is-link" href="http://blog.yurilab.com/blog/how_to_avoid_the_thundering_herd/" style="height:28px">
+          Read more
+          <span class="icon is-small">
+            <i class="fa fa-angle-double-right"></i>
+          </span>
+        </a>
+        
+      </div>
+    </article>
+    
+    <article>
+      <h1 class="title"><a href="http://blog.yurilab.com/blog/using-lua-with-ats/">ATS零碎笔记(一) - Lua</a></h1>
+      <h2 class="subtitle is-5">March 14, 2016</h2>
+      
+      <div class="content">
+        tslua配置姿势 这里只介绍从源码编译的方法，当然也有其他的 安装方式，两种都蛮简单。
+从源码编译只需要在执行./configure的时候加一个参数--enable-experimental-plugins， 这样在编译ATS的时候就会把实验性的插件也一起编译了，将来再用到其他插件也会很方便，无需重新编译。
+
+
+        
+        ...<a class="button is-link" href="http://blog.yurilab.com/blog/using-lua-with-ats/" style="height:28px">
+          Read more
+          <span class="icon is-small">
+            <i class="fa fa-angle-double-right"></i>
+          </span>
+        </a>
+        
+      </div>
+    </article>
+    
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <nav class="level is-mobile">
+      <div class="level-left">
+        <div class="level-item">
+          
+          <a class="button is-disabled">
+            <span class="icon is-small is-marginless">
+              <i class="fa fa-angle-left"></i>
+            </span>
+            Newer
+          </a>
+          
+        </div>
+      </div>
+      <div class="level-right is-marginless">
+        <div class="level-item">
+          
+          <a class="button is-disabled">
+            Older
+            <span class="icon is-small is-marginless">
+              <i class="fa fa-angle-right"></i>
+            </span>
+          </a>
+          
+        </div>
+      </div>
+    </nav>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container has-text-centered">
+    <p>&copy; 2017 | Follow on <a href="https://twitter.com/YuriTheCoder" target="_blank">Twitter</a> | using <a href="https://github.com/mgjohansen/hucore.git" target="_blank">Hucore theme</a> & <a href="http://gohugo.io" target="_blank">Hugo</a> ♥</p>
+  </div>
+</section>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js" integrity="sha256-+bhVTaRmJ/c07eV80nU8gD2cBBF0rYkf1txqXlrbvb0=" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/go.min.js"></script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/dockerfile.min.js"></script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-101624162-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='//www.google-analytics.com/analytics.js'></script>
+
+
+
+
