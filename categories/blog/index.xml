@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Blog on yuri | Lab</title>
-    <link>http://blog.yurilab.com/categories/blog/</link>
+    <link>http://www.yurilab.com/categories/blog/</link>
     <description>Recent content in Blog on yuri | Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <copyright>&amp;copy; 2017 | Follow on &lt;a href=&#34;https://twitter.com/YuriTheCoder&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt; | using &lt;a href=&#34;https://github.com/mgjohansen/hucore.git&#34; target=&#34;_blank&#34;&gt;Hucore theme&lt;/a&gt; &amp; &lt;a href=&#34;http://gohugo.io&#34; target=&#34;_blank&#34;&gt;Hugo&lt;/a&gt; ♥</copyright>
     <lastBuildDate>Thu, 17 Mar 2016 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://blog.yurilab.com/categories/blog/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.yurilab.com/categories/blog/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>ATS零碎笔记(二) - 避免雪崩</title>
-      <link>http://blog.yurilab.com/blog/how_to_avoid_the_thundering_herd/</link>
+      <link>http://www.yurilab.com/blog/how_to_avoid_the_thundering_herd/</link>
       <pubDate>Thu, 17 Mar 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://blog.yurilab.com/blog/how_to_avoid_the_thundering_herd/</guid>
+      <guid>http://www.yurilab.com/blog/how_to_avoid_the_thundering_herd/</guid>
       <description>&lt;p&gt;在应对高并发的请求时，ATS能够顽强的抗住请求压力，高速的输出缓存内容，但是当请求失效的时候，
 ATS不得不向回源机发起请求，希望重新获得这块内容并缓存起来。那么这里就有一个问题：&lt;/p&gt;
 
@@ -30,10 +30,10 @@ ATS不得不向回源机发起请求，希望重新获得这块内容并缓存�
     
     <item>
       <title>ATS零碎笔记(一) - Lua</title>
-      <link>http://blog.yurilab.com/blog/using-lua-with-ats/</link>
+      <link>http://www.yurilab.com/blog/using-lua-with-ats/</link>
       <pubDate>Mon, 14 Mar 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://blog.yurilab.com/blog/using-lua-with-ats/</guid>
+      <guid>http://www.yurilab.com/blog/using-lua-with-ats/</guid>
       <description>&lt;h2 id=&#34;tslua配置姿势&#34;&gt;tslua配置姿势&lt;/h2&gt;
 
 &lt;p&gt;这里只介绍从源码编译的方法，当然也有其他的
