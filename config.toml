@@ -1,4 +1,4 @@
-baseurl = "http://blog.yurilab.com"
+baseurl = "http://www.yurilab.com"
 languageCode = "zh"
 title = "yuri | Lab"
 theme = "Hucore"
