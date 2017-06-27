@@ -1,7 +1,7 @@
 baseurl = "http://www.yurilab.com"
 languageCode = "zh"
 title = "yuri | Lab"
-theme = "Hucore"
+theme = "hucore"
 copyright = "&copy; 2017 | Follow on <a href=\"https://twitter.com/YuriTheCoder\" target=\"_blank\">Twitter</a> | using <a href=\"https://github.com/mgjohansen/hucore.git\" target=\"_blank\">Hucore theme</a> & <a href=\"http://gohugo.io\" target=\"_blank\">Hugo</a> ♥"
 disqusShortname = "yurilab"
 googleAnalytics = "UA-101624162-1"
