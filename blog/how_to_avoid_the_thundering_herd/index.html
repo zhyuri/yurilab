@@ -21,7 +21,7 @@
 </script>
 <link rel="stylesheet" href="http://www.yurilab.com/css/style.css">
 <link rel="shortcut icon" href="http://www.yurilab.com/wave.ico">
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
 
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css">
 
@@ -73,14 +73,14 @@
     <h2 class="subtitle is-5">March 17, 2016 by Yuri Zhang</h2>
     
     <div class="content">
-      <p>在应对高并发的请求时，ATS能够顽强的抗住请求压力，高速的输出缓存内容，但是当请求失效的时候，
+      
+
+<p>在应对高并发的请求时，ATS能够顽强的抗住请求压力，高速的输出缓存内容，但是当请求失效的时候，
 ATS不得不向回源机发起请求，希望重新获得这块内容并缓存起来。那么这里就有一个问题：</p>
 
 <blockquote>
 <p>当ATS发现缓存失效，向回源机发起请求，在拿回全部内容之前，这段时间内的用户请求要怎么处理？</p>
 </blockquote>
-
-<p></p>
 
 <p>如果这里我们不做任何设计和配置，最原始的方案就是放过所有请求，大家都去回源机请求一次新数据，
 那么在这段真空期内，就像开闸泄洪一般，一大批请求在极短的时间内被疯狂打在回源机上，会造成一系列
@@ -200,6 +200,7 @@ CONFIG proxy.config.http.cache.fuzz.min_time INT 0
 <p><strong><a href="https://docs.trafficserver.apache.org/en/latest/admin-guide/files/records.config.en.html#proxy-config-http-background-fill-active-timeout">proxy.config.http.background_fill_active_timeout</a></strong></p>
 
 <p><strong><a href="https://docs.trafficserver.apache.org/en/latest/admin-guide/files/records.config.en.html#proxy-config-http-cache-fuzz-min-time">proxy.config.http.cache.fuzz.min_time</a></strong></p>
+
     </div>
     
         <div class="nav-left">
@@ -237,13 +238,13 @@ CONFIG proxy.config.http.cache.fuzz.min_time INT 0
 </section>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js" integrity="sha256-+bhVTaRmJ/c07eV80nU8gD2cBBF0rYkf1txqXlrbvb0=" crossorigin="anonymous"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js" integrity="sha256-+bhVTaRmJ/c07eV80nU8gD2cBBF0rYkf1txqXlrbvb0=" crossorigin="anonymous"></script>
 
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/go.min.js"></script>
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script>
 
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/dockerfile.min.js"></script>
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script>
 
 <script>hljs.initHighlightingOnLoad();</script>
 

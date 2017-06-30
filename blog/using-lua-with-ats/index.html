@@ -21,7 +21,7 @@
 </script>
 <link rel="stylesheet" href="http://www.yurilab.com/css/style.css">
 <link rel="shortcut icon" href="http://www.yurilab.com/wave.ico">
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
 
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css">
 
@@ -73,15 +73,15 @@
     <h2 class="subtitle is-5">March 14, 2016 by Yuri Zhang</h2>
     
     <div class="content">
-      <h2 id="tslua配置姿势">tslua配置姿势</h2>
+      
+
+<h2 id="tslua配置姿势">tslua配置姿势</h2>
 
 <p>这里只介绍从源码编译的方法，当然也有其他的
 <a href="https://blog.zymlinux.net/index.php/archives/768">安装方式</a>，两种都蛮简单。</p>
 
 <p>从源码编译只需要在执行<code>./configure</code>的时候加一个参数<code>--enable-experimental-plugins</code>，
 这样在编译ATS的时候就会把实验性的插件也一起编译了，将来再用到其他插件也会很方便，无需重新编译。</p>
-
-<p></p>
 
 <p>接下来在有三种配置方式：</p>
 
@@ -330,6 +330,7 @@ ATS会对每个URL都进行Vary校验，那么如果某些URL没有被配置该L
 </ol>
 
 <p>这样，我们就加入了一个tslua全局函数，当收到请求后就会被执行，从而对所有的<code>User-Agent</code>都过滤处理。</p>
+
     </div>
     
         <div class="nav-left">
@@ -367,13 +368,13 @@ ATS会对每个URL都进行Vary校验，那么如果某些URL没有被配置该L
 </section>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js" integrity="sha256-+bhVTaRmJ/c07eV80nU8gD2cBBF0rYkf1txqXlrbvb0=" crossorigin="anonymous"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js" integrity="sha256-+bhVTaRmJ/c07eV80nU8gD2cBBF0rYkf1txqXlrbvb0=" crossorigin="anonymous"></script>
 
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/go.min.js"></script>
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script>
 
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/dockerfile.min.js"></script>
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script>
 
 <script>hljs.initHighlightingOnLoad();</script>
 
