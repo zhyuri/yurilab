@@ -4,6 +4,7 @@ date = "2016-03-14"
 categories = "blog"
 +++
 
+
 ## tslua配置姿势
 
 这里只介绍从源码编译的方法，当然也有其他的
@@ -11,8 +12,6 @@ categories = "blog"
 
 从源码编译只需要在执行`./configure`的时候加一个参数`--enable-experimental-plugins`，
 这样在编译ATS的时候就会把实验性的插件也一起编译了，将来再用到其他插件也会很方便，无需重新编译。
-
-<!--more-->
 
 接下来在有三种配置方式：
 
