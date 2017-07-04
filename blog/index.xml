@@ -14,10 +14,10 @@
     
     <item>
       <title>ATS零碎笔记(二) - 避免雪崩</title>
-      <link>http://www.yurilab.com/blog/how_to_avoid_the_thundering_herd/</link>
+      <link>http://www.yurilab.com/blog/how-to-avoid-the-thundering-herd/</link>
       <pubDate>Thu, 17 Mar 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://www.yurilab.com/blog/how_to_avoid_the_thundering_herd/</guid>
+      <guid>http://www.yurilab.com/blog/how-to-avoid-the-thundering-herd/</guid>
       <description>在应对高并发的请求时，ATS能够顽强的抗住请求压力，高速的输出缓存内容，但是当请求失效的时候， ATS不得不向回源机发起请求，希望重新获得这块</description>
     </item>
     
